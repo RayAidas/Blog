@@ -35,7 +35,12 @@ const InfoForm = Form.create()(
         if (err) {
           return;
         }
-        updateUser(values);
+        var tag = updateUser(values);
+        if(tag){
+          alert('修改成功');
+        }else{
+          alert('出错了!')
+        }
       });
     }
 

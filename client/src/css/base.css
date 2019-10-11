@@ -16,11 +16,18 @@
   text-decoration: none;
 }
 
+.main .title{
+  margin-left:20px;
+}
 
-
-/*.main .title{
-
-} */
+.main blockquote {
+  position: relative;
+  color: #999;
+  font-weight: 400;
+  border-left: 4px solid #e5e9f2;
+  padding-left: 1em;
+  margin: 1em 3em 1em 2em;
+}
 
 .main .content{
   width: 100%;

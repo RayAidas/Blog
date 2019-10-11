@@ -114,3 +114,27 @@ export async function getListByName(author, pagestart, pagesize) {
       console.error(error);
     });
 }
+
+export async function getArticleById(id) {
+  return await fetch('http://localhost:7101/article/' + id, {
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      mode: 'cors',
+      cache: 'default'
+    }).then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return new Error('请求错误');
+      }
+    })
+    .then((data) => {
+      // console.log(data);
+      return data;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}

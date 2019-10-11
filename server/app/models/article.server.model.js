@@ -19,6 +19,10 @@ var ArticleSchema = new mongoose.Schema({
   createTime: {
     type: Date,
     default: Date.now
+  },
+  statement:{
+    type:String,
+    default:'#原创'
   }
 })
 

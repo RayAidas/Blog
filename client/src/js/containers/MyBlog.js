@@ -44,11 +44,18 @@ class MyBlog extends React.Component{
 		this.setState({
 			articles: res,
 		});
-	}
-
+  }
+  
+  filterHTMLTag(msg) {  
+    var msg = msg.replace(/<\/?[^>]*>/g, ''); //去除HTML Tag
+    msg = msg.replace(/[|]*\n/, '') //去除行尾空格
+    msg = msg.replace(/&npsp;/ig, ''); //去掉npsp
+    return msg;
+  }
 
 
   render() {
+    var filterHTMLTag;
     const {articles} = this.state;
     return (
       <div>
@@ -62,12 +69,17 @@ class MyBlog extends React.Component{
               {
                 articles.map((article, index) => ( 
                   <li className='list' key = {index} >
-                    <h3 className='title'>{article.title}</h3>
+                    <h3>
+                      <span className='statement'>{article.statement}</span>
+                      <span className='title'>{article.title}</span>
+                    </h3>
                     <span>{article.tag}</span>
-                    <p className='content'>{article.content}</p>
+                    <p className='content'>
+                      {filterHTMLTag=this.filterHTMLTag(article.content)}
+                    </p> 
                     <p className='info'>
                       <span>by {article.author} </span>
-                      <span> {article.createTime}</span>
+                      <span> {moment(article.createTime).format('l')}</span>
                     </p>
                   </li>
                 ))

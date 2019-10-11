@@ -10,7 +10,8 @@ class Main extends React.Component{
     super(props);
     this.state=({
       articles:[],
-      total:0
+      total:0,
+      content:null
     })
   }
 
@@ -30,7 +31,7 @@ class Main extends React.Component{
 		const res = await getList(c,p);
 		console.log(res);
 		this.setState({
-			articles: res,
+      articles: res
 		});
 	}
 
@@ -40,11 +41,19 @@ class Main extends React.Component{
 		const res = await getList(c,p);
 		console.log(res);
 		this.setState({
-			articles: res,
+      articles: res,
 		});
-	}
+  }
+  
+  filterHTMLTag(msg) {  
+    var msg = msg.replace(/<\/?[^>]*>/g, ''); //去除HTML Tag
+    msg = msg.replace(/[|]*\n/, '') //去除行尾空格
+    msg = msg.replace(/&npsp;/ig, ''); //去掉npsp
+    return msg;
+  }
 
   render() {
+    var filterHTMLTag;
     const {	articles } = this.state;
     return (
       <div className='wrap'>
@@ -59,13 +68,18 @@ class Main extends React.Component{
                       pathname:`/detail/${article._id}`,
                       state:article
                     }}>
-                      <h3 className='title'>{article.title}</h3>
+                      <h3>
+                        <span className='statement'>{article.statement}</span>
+                        <span className='title'>{article.title}</span>
+                      </h3>
                     </Link>
                     <span>{article.tag}</span>
-                    <p className='content'>{article.content}</p>
+                    <p className='content'>
+                      {filterHTMLTag=this.filterHTMLTag(article.content)}
+                    </p> 
                     <p className='info'>
                       <span>by {article.author} </span>
-                      <span> {article.createTime}</span>
+                      <span>{moment(article.createTime).format('l')}</span>
                     </p>
                   </li>
                 ))

@@ -43,6 +43,14 @@ const WriteBlogForm = Form.create()(
     const handleChange = value => {
       console.log(`selected ${value}`);
     }
+    const statement = getFieldDecorator('statement', {
+      initialValue: '#原创',
+    })(
+      <Select style={{ width: 100 }}>
+        <Option value="#原创">#原创</Option>
+        <Option value="#转载">#转载</Option>
+      </Select>,
+    );
 
     return ( 
       <div>
@@ -73,7 +81,10 @@ const WriteBlogForm = Form.create()(
                   message: 'Please input your Title'
                 }],
               })( 
-                <Input placeholder = "标题" />
+                <Input
+                  addonBefore={statement}
+                  placeholder = "标题" 
+                />
               )
             } 
           </FormItem>
@@ -114,7 +125,10 @@ const WriteBlogForm = Form.create()(
                   message: 'Please input your Description'
                 }],
               })( 
-                <Input placeholder = "描述" />
+                <TextArea 
+                  rows = {2}
+                  placeholder = "描述" 
+                />
               )
             } 
           </FormItem>

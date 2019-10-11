@@ -25,7 +25,11 @@ class TopBar extends React.Component{
 				</div>
 				<div className='lr'>
 					<div>
-						<Link to='/writeBlog'>写博客</Link>
+						{
+							this.state.currenUserName?
+								<Link to='/writeBlog'>写博客</Link>:
+								<Link onClick={this.alertInfo.bind(this)} to='/'>写博客</Link>
+						}
 					</div>
 					<div>
 						{
