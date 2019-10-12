@@ -1,6 +1,6 @@
-.wrap{
-  /* background-color:gray; */
-}
+/* .wrap{
+  
+} */
 
 .main{
   width: 70%;
@@ -46,7 +46,15 @@
   overflow: hidden;  /** 隐藏超出的内容 **/
 }
 
-.main .infor span{
-  margin-right:15px;
+.main .info .first{
+  margin:0;
+}
+
+.main .info span{
+  margin-left:15px;
   color:gray;
+}
+
+.main .info span a{
+  margin-left:10px;
 }

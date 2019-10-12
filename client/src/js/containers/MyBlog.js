@@ -4,19 +4,29 @@ import {Button,Pagination } from 'antd';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import '../../css/base.css';
-import {getAllListByName,getListByName} from '../action/BlogAction'
+import {getAllListByName,getListByName} from '../action/BlogAction';
 
-class MyBlog extends React.Component{
+class UserBlog extends React.Component{
   constructor(props){
     super(props);
     this.state=({
-      userName:localStorage.getItem('name'),
+      userName:null,
       articles:[],
       total:0
     })
   }
 
   async componentDidMount() {
+    const name=this.props.match.params.author;
+    if(name){
+      this.setState({
+        userName:name
+      });
+    }else{
+      this.setState({
+        userName:localStorage.getItem('name')
+      });
+    }
     const total = await getAllListByName(this.state.userName);
     const res = await getListByName(this.state.userName);
     this.setState({
@@ -55,7 +65,7 @@ class MyBlog extends React.Component{
 
 
   render() {
-    var filterHTMLTag;
+    let filterHTMLTag;
     const {articles} = this.state;
     return (
       <div>
@@ -64,22 +74,36 @@ class MyBlog extends React.Component{
           <div className='main' style={{
           minHeight:document.body.clientHeight-50
           }}>
-            <h1>我的博客</h1>
+            <h1>{this.state.userName}的博客</h1>
             <ul style={{margin:0}}> 
               {
                 articles.map((article, index) => ( 
                   <li className='list' key = {index} >
-                    <h3>
-                      <span className='statement'>{article.statement}</span>
-                      <span className='title'>{article.title}</span>
-                    </h3>
+                    <Link to={{
+                      pathname:`/detail/${article._id}`,
+                    }}>
+                      <h3>
+                        <span className='statement'>{article.statement}</span>
+                        <span className='title'>{article.title}</span>
+                      </h3>
+                    </Link>
                     <span>{article.tag}</span>
                     <p className='content'>
                       {filterHTMLTag=this.filterHTMLTag(article.content)}
                     </p> 
                     <p className='info'>
-                      <span>by {article.author} </span>
+                      <span className='first'>by {article.author} </span>
                       <span> {moment(article.createTime).format('l')}</span>
+                      <span>浏览次数:{article.views}</span>
+                      <span>评论:{article.comment}</span>
+                      {
+                        this.props.match.params.author?
+                          <span></span>:
+                          <span>
+                            <Link to='/'>修改</Link>  
+                            <Link to='/myBlog'>删除</Link>
+                          </span>
+                      }
                     </p>
                   </li>
                 ))
@@ -103,4 +127,4 @@ class MyBlog extends React.Component{
   }
 }
 
-export default MyBlog;
+export default UserBlog;

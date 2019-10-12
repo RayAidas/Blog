@@ -53,7 +53,7 @@ class Main extends React.Component{
   }
 
   render() {
-    var filterHTMLTag;
+    let filterHTMLTag;
     const {	articles } = this.state;
     return (
       <div className='wrap'>
@@ -66,7 +66,6 @@ class Main extends React.Component{
                   <li className='list' key = {index} >
                     <Link to={{
                       pathname:`/detail/${article._id}`,
-                      state:article
                     }}>
                       <h3>
                         <span className='statement'>{article.statement}</span>
@@ -78,8 +77,20 @@ class Main extends React.Component{
                       {filterHTMLTag=this.filterHTMLTag(article.content)}
                     </p> 
                     <p className='info'>
-                      <span>by {article.author} </span>
+                      {
+                        article.author==localStorage.getItem('name')?
+                          <Link to='/myBlog'>
+                            <span className='first'>by {article.author} </span>
+                          </Link>:
+                          <Link to={{
+                            pathname:`/list/${article.author}`
+                          }}>
+                            <span className='first'>by {article.author} </span>
+                          </Link>
+                      }
                       <span>{moment(article.createTime).format('l')}</span>
+                      <span>浏览次数:{article.views}</span>
+                      <span>评论:{article.comment}</span>
                     </p>
                   </li>
                 ))
