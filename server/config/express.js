@@ -15,6 +15,7 @@ module.exports  =function(){
 
   require('../app/routes/users.server.routes')(app);
   require('../app/routes/article.server.routes')(app);
+  require('../app/routes/comment.server.routes')(app);
 
   // 处理所有未知的请求
   app.use(function(req, res, next){

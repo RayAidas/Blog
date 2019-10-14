@@ -24,6 +24,6 @@ var ArticleSchema = new mongoose.Schema({
     type:String,
     default:'#原创'
   }
-})
+});
 
 var Article = mongoose.model('Article',ArticleSchema)

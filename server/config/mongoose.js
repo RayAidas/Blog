@@ -10,6 +10,6 @@ module.exports = function(){
   // 导入 model
   require('../app/models/users.server.model');
   require('../app/models/article.server.model');
-
+  require('../app/models/comment.server.model');
   return db;
 };

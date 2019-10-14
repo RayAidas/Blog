@@ -31,7 +31,7 @@ class Model extends React.Component {
 
   removeUser(){
     localStorage.removeItem("name");
-    window.location.href="/client";
+    window.location.href="/";
   }
 
 

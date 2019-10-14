@@ -6,6 +6,17 @@ module.exports = {
   context: path.join(__dirname),
   devtool: debug ? "inline-sourcemap" : null,
   entry: "./client/src/js/index.js",
+  // devServer:{
+  //   open:true,
+  //   port:3000,
+  //   contentBase:'client',
+  //   hot:true
+  // },
+  // plugins:[
+  //   // 配置插件的节点
+  //   // new 一个热更新的模块对象，这是启用热更新的第三步
+  //  new webpack.HotModuleReplacementPlugin()
+  // ],
   module: {
     rules: [{
         test: /\.js?$/,
@@ -44,8 +55,10 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname,
-    filename: "./client/src/bundle.js"
+    // path: __dirname,
+    path: path.join(__dirname, 'client/src/dist'),
+　　filename: 'bundle.js'
+    // filename: "./client/src/dist/bundle.js"
   },
   mode: 'development',
   plugins: debug ? [] : [

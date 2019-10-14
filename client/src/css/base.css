@@ -2,7 +2,8 @@
   
 } */
 
-.main{
+.main,
+.comment{
   width: 70%;
   margin:0 auto;
   padding-bottom: 1em;
@@ -46,11 +47,13 @@
   overflow: hidden;  /** 隐藏超出的内容 **/
 }
 
-.main .info .first{
+.main .info .first,
+.comment ul li span .first{
   margin:0;
 }
 
-.main .info span{
+.main .info span,
+.comment span{
   margin-left:15px;
   color:gray;
 }
