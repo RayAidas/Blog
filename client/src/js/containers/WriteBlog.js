@@ -24,9 +24,7 @@ class WriteBlog extends React.Component{
     return (
       <div className='wrap'>
         <TopBar/>
-        <div className='main' style={{
-        minHeight:document.body.clientHeight-50
-        }}>
+        <div className='main'>
           <h1>写博客</h1>
           <WriteBlogForm
             id={this.state.userId}

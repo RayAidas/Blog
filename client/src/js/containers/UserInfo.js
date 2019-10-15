@@ -27,10 +27,7 @@ class UserInfo extends React.Component{
       <div>
         <TopBar/>
         <div className='wrap'>
-          <div 
-            className='main' 
-            style={{minHeight:document.body.clientHeight-50}}
-          >
+          <div className='main'>
             <h1>个人信息</h1>
             <InfoForm
               userInfo={this.state.userInfo}

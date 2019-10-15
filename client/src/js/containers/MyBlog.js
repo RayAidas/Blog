@@ -71,9 +71,7 @@ class UserBlog extends React.Component{
       <div>
         <TopBar/>
         <div className='wrap'>
-          <div className='main' style={{
-          minHeight:document.body.clientHeight-50
-          }}>
+          <div className='main'>
             <h1>{this.state.userName}的博客</h1>
             <ul style={{margin:0}}> 
               {
@@ -93,7 +91,7 @@ class UserBlog extends React.Component{
                     </p> 
                     <p className='info'>
                       <span className='first'>by {article.author} </span>
-                      <span> {moment(article.createTime).format('l')}</span>
+                      <span> {moment(article.createTime).format('YYYY-MM-DD HH:mm:ssl')}</span>
                       <span>浏览次数:{article.views}</span>
                       <span>评论:{article.comment}</span>
                       {

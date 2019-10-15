@@ -57,9 +57,7 @@ class Main extends React.Component{
     const {	articles } = this.state;
     return (
       <div className='wrap'>
-         <div className='main' style={{
-          minHeight:document.body.clientHeight-50
-          }}>
+         <div className='main'>
             <ul style={{margin:0}}> 
               {
                 articles.map((article, index) => ( 
@@ -88,7 +86,7 @@ class Main extends React.Component{
                             <span className='first'>by {article.author} </span>
                           </Link>
                       }
-                      <span>{moment(article.createTime).format('l')}</span>
+                      <span>{moment(article.createTime).format('YYYY-MM-DD HH:mm:ss')}</span>
                       <span>浏览次数:{article.views}</span>
                       <span>评论:{article.comment}</span>
                     </p>

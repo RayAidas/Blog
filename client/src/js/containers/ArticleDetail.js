@@ -54,9 +54,7 @@ class ArticleDetail extends React.Component{
       <div>
         <TopBar/>
         <div className='wrap'>
-          <div className='main' style={{
-            minHeight:document.body.clientHeight-50
-          }}>
+          <div className='main'>
             <blockquote>
               <p>{article.description}</p>
             </blockquote>
@@ -74,7 +72,8 @@ class ArticleDetail extends React.Component{
                     <p>
                       <span className='first'>{comment.userName}</span> 
                       <span>{comment.commentContent}</span> 
-                      <span>{moment(comment.commentTime).format('l')}</span></p>
+                      <span>{moment(comment.commentTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </p>
                   </li>
                 ))
               }

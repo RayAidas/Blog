@@ -36,8 +36,12 @@ const Comment = Form.create()(
         if (err) {
           return;
         }
-        const tag = addComment(values);
-        console.log(tag);
+        if(!values.commentContent){
+          alert('评论不能为空');
+        }else{
+          const tag = addComment(values);
+          console.log(tag);
+        }
       });
       props.commentChange(props.ArticleId);
     }
