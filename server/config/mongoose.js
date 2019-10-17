@@ -11,5 +11,6 @@ module.exports = function(){
   require('../app/models/users.server.model');
   require('../app/models/article.server.model');
   require('../app/models/comment.server.model');
+  require('../app/models/reply.server.model');
   return db;
 };

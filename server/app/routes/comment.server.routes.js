@@ -9,4 +9,7 @@ module.exports = function(app){
   
   app.route('/comment/getAllByArticleId')
     .get(CommentController.allListByArticleId)
+
+  app.route('/comment/updateCommentState')
+    .post(CommentController.updateCommentState)
 }

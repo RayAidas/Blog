@@ -33,5 +33,15 @@ module.exports = {
 
         return res.json(docs);
       })
-  }
+  },
+  updateCommentState: function(req,res,next){
+    var id = req.body.commentId;
+    Comment.findById(id,function(err,data){
+        if(err) return next(err);
+        data.commentState = false;
+        data.save(function(err){
+            return res.json(data);
+        })
+    })
+},
 }

@@ -37,7 +37,7 @@ const WriteBlogForm = Form.create()(
         }
         const tag = addBlog(values);
         console.log(tag);
-        window.location.href = '/client';
+        window.location.href = '/';
       });
     }
     const handleChange = value => {

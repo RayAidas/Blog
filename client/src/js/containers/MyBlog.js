@@ -9,38 +9,44 @@ import {getAllListByName,getListByName} from '../action/BlogAction';
 class UserBlog extends React.Component{
   constructor(props){
     super(props);
-    this.state=({
-      userName:null,
+    this.state={
+      userName:localStorage.getItem('name'),
       articles:[],
       total:0
-    })
+    }
   }
+
+  async stateFunction() {
+    const total = await getAllListByName(this.state.userName);
+    const res = await getListByName(this.state.userName);
+      this.setState({
+        articles:res,
+        total:total.length
+      });
+ }
 
   async componentDidMount() {
     const name=this.props.match.params.author;
     if(name){
       this.setState({
         userName:name
+      },function(){
+        this.stateFunction()
       });
     }else{
       this.setState({
         userName:localStorage.getItem('name')
+      },function(){
+        this.stateFunction()
       });
     }
-    const total = await getAllListByName(this.state.userName);
-    const res = await getListByName(this.state.userName);
-    this.setState({
-      articles:res,
-      total:total.length
-    })
   }
   
   async onShowSizeChange(current, pageSize) {
 		console.log(current, pageSize);	
 		let c=current;
 		let p=pageSize;
-		const res = await getListByName(this.state.userName,c,p);
-		console.log(res);
+    const res = await getListByName(this.state.userName,c,p);
 		this.setState({
 			articles: res,
 		});
@@ -49,8 +55,8 @@ class UserBlog extends React.Component{
 	async onClick(current,pageSize){
 		let c=current;
 		let p=pageSize;
-		const res = await getListByName(this.state.userName,c,p);
-		console.log(res);
+    const res = await getListByName(this.state.userName,c,p);
+    console.log('onclick');
 		this.setState({
 			articles: res,
 		});

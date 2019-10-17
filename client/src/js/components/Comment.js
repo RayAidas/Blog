@@ -39,11 +39,11 @@ const Comment = Form.create()(
         if(!values.commentContent){
           alert('评论不能为空');
         }else{
-          const tag = addComment(values);
-          console.log(tag);
+          addComment(values);
         }
+        props.commentChange(props.ArticleId);
+        props.form.setFields({"commentContent":""})
       });
-      props.commentChange(props.ArticleId);
     }
 
     return(
