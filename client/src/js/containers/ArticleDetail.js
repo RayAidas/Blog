@@ -3,7 +3,7 @@ import {Pagination} from 'antd';
 import moment from 'moment';
 import TopBar from '../components/TopBar';
 import Comment from '../components/Comment';
-import {getArticleById} from '../action/BlogAction';
+import {getArticleById,updateCommentNum} from '../action/BlogAction';
 import {findByName} from '../action/UserAction';
 import {getCommentByArticleId,getAllCommentByArticleId,deleteComment} from '../action/CommentAction';
 
@@ -50,6 +50,10 @@ class ArticleDetail extends React.Component{
   async commentChange(articleId){
     const comments = await getCommentByArticleId(articleId,this.state.current,this.state.pageSize);
     const commentsTotal = await getAllCommentByArticleId(this.state.article._id);
+    const article = await getArticleById(articleId);
+    const num = article.comment;
+    const test = await updateCommentNum(articleId,num);
+    console.log(test);
     this.setState({
       comments:comments,
       commentsTotal:commentsTotal.length
@@ -119,7 +123,7 @@ class ArticleDetail extends React.Component{
                     </p>
                     <p>
                       <span>{moment(comment.commentTime).format('YYYY-MM-DD HH:mm:ss')}</span>
-                      <span><a>回复</a></span>
+                      <span><a>回复({comment.replys})</a></span>
                       {
                         article.author==this.state.userInfo.name || this.state.userInfo.name==comment.userName?
                           <span><a onClick={this.deleteComment.bind(this,comment._id)}>删除</a></span>:

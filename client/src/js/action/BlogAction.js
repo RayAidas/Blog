@@ -138,3 +138,48 @@ export async function getArticleById(id) {
       console.error(error);
     });
 }
+
+export function updateBlog(article) {
+  return fetch('http://localhost:7101/updateArticle', {
+    method: 'post',
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(article)
+  }).then(response => {
+    if (response.ok) {
+      console.log('update success')
+    } else {
+      console.log('update failed');
+    }
+    return response.ok;
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+export async function updateCommentNum(articleId,num) {
+  return await fetch('http://localhost:7101/article/updateCommentNum', {
+    method: 'post',
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id:articleId,
+      num:num
+    })
+  }).then(response => {
+    if (response.ok) {
+      console.log('update success')
+    } else {
+      console.log('update failed');
+    }
+    return response.ok;
+  }).catch(error => {
+    console.error(error);
+  });
+}

@@ -64,13 +64,23 @@ module.exports = {
     var id = req.body.id;
     var article = req.body;
     Article
-      .findById(id, function (err, doc) {
-        if (err) return next(err);
-        article
-          .save(function (err) {
-            return res.json(user);
-          });
+      .updateOne({_id:id},article,function (err,result) {
+        if(err){
+          throw err;
+        }
+        return res.json(result);
       });
+  },
+  updateCommentNum: function(req,res){
+    var id = req.body.id;
+    var num = req.body.num+1;
+    Article
+      .updateOne({_id:id},{$set:{comment:num}},function(err,result){
+        if(err){
+          throw err;
+        }
+        return res.json(result);
+      })
   },
   getAllListByName: function (req, res, next) {
     var author = req.query.author;

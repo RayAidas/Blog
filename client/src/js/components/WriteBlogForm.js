@@ -1,11 +1,12 @@
 import React, { Component} from 'react';
 import {Form,Input,Button,Select,Radio,Upload,Icon,message} from 'antd';
-import {addBlog} from '../action/BlogAction';
+import {addBlog,updateBlog} from '../action/BlogAction';
 const FormItem = Form.Item;
 const {TextArea} = Input;
 
 const WriteBlogForm = Form.create()(
   (props) => {
+    const initData = props.article;
     const {form} = props;
     const {getFieldDecorator} = form;
     const formItemLayout = {
@@ -30,6 +31,16 @@ const WriteBlogForm = Form.create()(
         },
       },
     };
+    const reviseData = () => {
+      form.validateFields((err,values) => {
+        if (err) {
+          return;
+        }
+        const tag = updateBlog(values);
+        console.log(tag);
+        alert('修改成功');
+      });
+    };
     const saveFormData = () => {
       form.validateFields((err, values) => {
         if (err) {
@@ -39,22 +50,35 @@ const WriteBlogForm = Form.create()(
         console.log(tag);
         window.location.href = '/';
       });
-    }
+    };
     const handleChange = value => {
       console.log(`selected ${value}`);
-    }
+    };
     const statement = getFieldDecorator('statement', {
-      initialValue: '#原创',
+      initialValue: props.article.statement,
     })(
       <Select style={{ width: 100 }}>
-        <Option value="#原创">#原创</Option>
-        <Option value="#转载">#转载</Option>
+        <Select.Option value="#原创">#原创</Select.Option>
+        <Select.Option value="#转载">#转载</Select.Option>
       </Select>,
     );
 
     return ( 
       <div>
         <Form {...formItemLayout}>
+          {
+            initData?
+              <FormItem label = "articleId" style={{display:'none'}}> 
+                {
+                  getFieldDecorator('id',{
+                    initialValue:initData._id
+                  })( 
+                    <Input />
+                  )
+                } 
+              </FormItem>:
+              null
+          }
           <FormItem label = "作者" style={{display:'none'}}> 
             {
               getFieldDecorator('author',{
@@ -76,6 +100,7 @@ const WriteBlogForm = Form.create()(
           <FormItem label = "标题" > 
             {
               getFieldDecorator('title', {
+                initialValue:initData.title,
                 rules: [{
                   required: true,  
                   message: 'Please input your Title'
@@ -91,7 +116,7 @@ const WriteBlogForm = Form.create()(
           <FormItem label='类型'>
             {
               getFieldDecorator('type',{
-                initialValue:'前端',
+                initialValue:initData.type,
                 rules: [{
                   required: true,  
                   message: 'Please select your Type'
@@ -108,6 +133,7 @@ const WriteBlogForm = Form.create()(
           <FormItem label = "标签" >
             {
               getFieldDecorator('tag', {
+                initialValue:initData.tag,
                 rules: [{
                   required: true,
                   message: 'Please input your Tag'
@@ -120,6 +146,7 @@ const WriteBlogForm = Form.create()(
           <FormItem label = "描述" > 
             {
               getFieldDecorator('description', {
+                initialValue:initData.description,
                 rules: [{
                   required: true,  
                   message: 'Please input your Description'
@@ -135,6 +162,7 @@ const WriteBlogForm = Form.create()(
           <FormItem label = "正文" >
             {
               getFieldDecorator('content',{
+                initialValue:initData.content,
                 rules: [{
                   required: true,
                   message: 'Please input your Content'
@@ -148,11 +176,19 @@ const WriteBlogForm = Form.create()(
             } 
           </FormItem> 
           <FormItem  {...tailFormItemLayout}>
-            <Button 
-              type = "primary"
-              onClick = {
-                saveFormData
-            }> 发布 </Button>
+            {
+              initData?
+                <Button 
+                  type = "primary"
+                  onClick = {
+                    reviseData
+                }>修改</Button>:
+                <Button 
+                  type = "primary"
+                  onClick = {
+                    saveFormData
+                }> 发布 </Button>
+            }
           </FormItem>
         </Form> 
       </div>

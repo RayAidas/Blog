@@ -16,6 +16,7 @@ class RouteMap extends React.Component{
             <Route path='/myBlog' component={MyBlog}/>
             <Route path='/list/:author' component={MyBlog}/>
             <Route path='/detail/:id' component={ArticleDetail}/>
+            <Route path='/revise/:id' component={WriteBlog}/>
         </Router>
         );
     }

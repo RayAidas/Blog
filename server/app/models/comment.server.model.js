@@ -16,6 +16,10 @@ var CommentSchema = new mongoose.Schema({
     type:Date,
     default:Date.now
   },
+  replys:{
+    type:Number,
+    default:0
+  }
 });
 
 var Comment = mongoose.model('Comment',CommentSchema);

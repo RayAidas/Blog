@@ -104,8 +104,10 @@ class UserBlog extends React.Component{
                         this.props.match.params.author?
                           <span></span>:
                           <span>
-                            <Link to='/'>修改</Link>  
-                            <Link to='/myBlog'>删除</Link>
+                            <Link to={{
+                              pathname:`/revise/${article._id}`,
+                            }}>修改</Link>  
+                            <a>删除</a>
                           </span>
                       }
                     </p>

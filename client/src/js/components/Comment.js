@@ -40,9 +40,9 @@ const Comment = Form.create()(
           alert('评论不能为空');
         }else{
           addComment(values);
+          props.commentChange(props.ArticleId);
+          props.form.setFields({"commentContent":""});
         }
-        props.commentChange(props.ArticleId);
-        props.form.setFields({"commentContent":""})
       });
     }
 
