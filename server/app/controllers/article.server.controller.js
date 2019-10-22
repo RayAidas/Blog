@@ -82,6 +82,17 @@ module.exports = {
         return res.json(result);
       })
   },
+  updateViewsNum: function(req,res){
+    var id = req.body.id;
+    var num = req.body.num+1;
+    Article
+      .updateOne({_id:id},{$set:{views:num}},function(err,result){
+        if(err){
+          throw err;
+        }
+        return res.json(result);
+      })
+  },
   getAllListByName: function (req, res, next) {
     var author = req.query.author;
     Article

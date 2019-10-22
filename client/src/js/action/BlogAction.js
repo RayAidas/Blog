@@ -183,3 +183,51 @@ export async function updateCommentNum(articleId,num) {
     console.error(error);
   });
 }
+
+export async function updateViewsNum(articleId,num) {
+  return await fetch('http://localhost:7101/article/updateViewsNum', {
+    method: 'post',
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id:articleId,
+      num:num
+    })
+  }).then(response => {
+    if (response.ok) {
+      console.log('update views success')
+    } else {
+      console.log('update views failed');
+    }
+    return response.ok;
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+
+export async function deleteBlog(id) {
+  return await fetch(`http://localhost:7101/deleteArticle`, {
+    method: 'post',
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: id,
+    })
+  }).then(response => {
+    if (response.ok) {
+      console.log('delete success')
+    } else {
+      console.log('delete failed');
+    }
+    return response.ok;
+  }).catch(error => {
+    console.error(error);
+  });
+}

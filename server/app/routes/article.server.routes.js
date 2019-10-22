@@ -26,5 +26,8 @@ module.exports = function(app){
   app.route('/article/updateCommentNum')
     .post(ArticleController.updateCommentNum)
 
+  app.route('/article/updateViewsNum')
+    .post(ArticleController.updateViewsNum)
+
   app.param('id',ArticleController.getById);
 }

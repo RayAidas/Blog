@@ -65,6 +65,8 @@ class Model extends React.Component {
           this.setState({
             visible: false,
           });
+          localStorage.setItem('name',this.formRef.getItemsValue().name);
+          location.reload();
         }else{
           alert('该用户已存在');
         }

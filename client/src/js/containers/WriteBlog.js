@@ -37,6 +37,7 @@ class WriteBlog extends React.Component{
         <div className='main'>
           <h1>写博客</h1>
           <WriteBlogForm
+            tag = "write"
             id = {this.state.userId}
             article = {this.state.article}
           />

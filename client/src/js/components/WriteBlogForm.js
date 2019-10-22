@@ -48,14 +48,14 @@ const WriteBlogForm = Form.create()(
         }
         const tag = addBlog(values);
         console.log(tag);
-        window.location.href = '/';
+        window.location.href = '/#/myBlog';
       });
     };
     const handleChange = value => {
       console.log(`selected ${value}`);
     };
     const statement = getFieldDecorator('statement', {
-      initialValue: props.article.statement,
+      initialValue: props.article.statement?props.article.statement:"原创",
     })(
       <Select style={{ width: 100 }}>
         <Select.Option value="#原创">#原创</Select.Option>
@@ -116,7 +116,7 @@ const WriteBlogForm = Form.create()(
           <FormItem label='类型'>
             {
               getFieldDecorator('type',{
-                initialValue:initData.type,
+                initialValue:initData.type?initData.type:"前端",
                 rules: [{
                   required: true,  
                   message: 'Please select your Type'
@@ -177,7 +177,7 @@ const WriteBlogForm = Form.create()(
           </FormItem> 
           <FormItem  {...tailFormItemLayout}>
             {
-              initData?
+              props.tag!="write"?
                 <Button 
                   type = "primary"
                   onClick = {

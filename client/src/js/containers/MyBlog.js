@@ -4,7 +4,7 @@ import {Button,Pagination } from 'antd';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import '../../css/base.css';
-import {getAllListByName,getListByName} from '../action/BlogAction';
+import {getAllListByName,getListByName,deleteBlog} from '../action/BlogAction';
 
 class UserBlog extends React.Component{
   constructor(props){
@@ -69,6 +69,19 @@ class UserBlog extends React.Component{
     return msg;
   }
 
+  async deleteArticle(id){
+    const msg = await deleteBlog(id);
+    console.log(msg);
+    if(msg){
+      const total = await getAllListByName(this.state.userName);
+      const res = await getListByName(this.state.userName);
+      this.setState({
+        articles:res,
+        total:total.length
+      });
+    }
+  }
+
 
   render() {
     let filterHTMLTag;
@@ -81,6 +94,10 @@ class UserBlog extends React.Component{
             <h1>{this.state.userName}的博客</h1>
             <ul style={{margin:0}}> 
               {
+                articles.length==0?
+                <div>您还没有发布任何文章快去发布吧
+                  <Link to='/writeBlog'> 点击前往</Link>
+                </div>:
                 articles.map((article, index) => ( 
                   <li className='list' key = {index} >
                     <Link to={{
@@ -107,7 +124,7 @@ class UserBlog extends React.Component{
                             <Link to={{
                               pathname:`/revise/${article._id}`,
                             }}>修改</Link>  
-                            <a>删除</a>
+                            <a onClick={this.deleteArticle.bind(this,article._id)}>删除</a>
                           </span>
                       }
                     </p>

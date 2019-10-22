@@ -3,7 +3,7 @@ import {Button,Pagination } from 'antd';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import '../../css/base.css';
-import { getAllList,getList } from '../action/BlogAction';
+import { getAllList,getList,updateViewsNum,getArticleById } from '../action/BlogAction';
 
 class Main extends React.Component{
   constructor(props){
@@ -33,7 +33,14 @@ class Main extends React.Component{
 		this.setState({
       articles: res
 		});
-	}
+  }
+  
+  async viewsChange(id){
+    const article = await getArticleById(id);
+    const num = article.views;
+    const tag = await updateViewsNum(id,num);
+    console.log(tag);
+  }
 
 	async onClick(current,pageSize){
 		let c=current;
@@ -67,7 +74,7 @@ class Main extends React.Component{
                     }}>
                       <h3>
                         <span className='statement'>{article.statement}</span>
-                        <span className='title'>{article.title}</span>
+                        <span onClick={this.viewsChange.bind(this,article._id)} className='title'>{article.title}</span>
                       </h3>
                     </Link>
                     <span>{article.tag}</span>

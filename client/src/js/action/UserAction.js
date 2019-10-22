@@ -19,30 +19,6 @@ export async function register(user) {
   });
 }
 
-
-export async function deleteUser(id) {
-  return await fetch(`http://localhost:7101/deleteUser`, {
-    method: 'post',
-    mode: "cors",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id: id,
-    })
-  }).then(response => {
-    if (response.ok) {
-      console.log('delete success')
-    } else {
-      console.log('delete failed');
-    }
-    return response.ok;
-  }).catch(error => {
-    console.error(error);
-  });
-}
-
 export async function login(user) {
   return await fetch(`http://localhost:7101/findUser`, {
     method: 'post',
