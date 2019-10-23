@@ -2,21 +2,29 @@ p {
   margin: 0;
 }
 
-/* .wrap{
-  
-} */
-
 .main,
 .comments {
-  width: 70%;
   margin: 0 auto;
   padding-bottom: 1em;
   background-color: #fff;
 }
 
-/* .main h1{
+.main,
+.comments h2,
+.comments p {
+  margin: 0 16% 0 16%;
+}
 
-}*/
+.comments a {
+  -moz-user-select: -moz-none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
 
 .main .list {
   text-decoration: none;
@@ -58,12 +66,13 @@ p {
 }
 
 .main .info .first,
-.comments ul li span .first {
+.comments ul li .first,
+.replies p .first{
   margin: 0;
 }
 
 .main .info span,
-.comments span {
+.comments p span {
   margin-left: 15px;
   color: gray;
 }
@@ -80,9 +89,36 @@ p {
 .comments .content {
   color: #000;
   font-size: 20px;
-  padding:5px 0 5px 0;
+  padding: 5px 0 5px 0;
 }
 
 .comment {
   margin-bottom: 10px;
+}
+
+.reply .ant-form-item {
+  margin-bottom: 0;
+}
+
+.replies {
+  margin: 0 17% 0 17%;
+  padding:10px 20px 0 20px;
+}
+
+.replies p{
+  margin:0;
+}
+
+.replies .content{
+  color:#000;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.replies .fromUser{
+  color:rgba(10, 10, 250, 0.76);
+}
+
+.replies .toUser{
+  color:rgb(231, 75, 75);
 }

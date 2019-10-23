@@ -2,10 +2,12 @@ import React from 'react';
 import {Pagination} from 'antd';
 import moment from 'moment';
 import TopBar from '../components/TopBar';
+import Reply from '../components/Reply';
 import Comment from '../components/Comment';
 import {getArticleById,updateCommentNum} from '../action/BlogAction';
 import {findByName} from '../action/UserAction';
 import {getCommentByArticleId,getAllCommentByArticleId,deleteComment} from '../action/CommentAction';
+import {getAllreplyByArticleId} from '../action/ReplyAction';
 
 class ArticleDetail extends React.Component{
   constructor(props){
@@ -18,7 +20,10 @@ class ArticleDetail extends React.Component{
       comments:[],
       commentsTotal:0,
       current:1,
-      pageSize:10
+      pageSize:10,
+      styleTag:false,
+      currentIndex:null,
+      replies:[]
     };
   }
 
@@ -28,6 +33,7 @@ class ArticleDetail extends React.Component{
     const article = await getArticleById(id);
     const comments = await getCommentByArticleId(id);
     const commentsTotal = await getAllCommentByArticleId(id);
+    const replies = await getAllreplyByArticleId(id);
     let filter = article.content.replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--');
     if(username){
       const res = await findByName(username);
@@ -36,14 +42,15 @@ class ArticleDetail extends React.Component{
         content:filter,
         userInfo:res,
         comments:comments,
-        commentsTotal:commentsTotal.length
+        commentsTotal:commentsTotal.length,
+        replies:replies
       });
-      // console.log(this.state.commentsTotal);
     }else{
       this.setState({
         article:article,
         content:filter,
-        comments:comments
+        comments:comments,
+        replies:replies
       });
     }
   }
@@ -58,6 +65,12 @@ class ArticleDetail extends React.Component{
       comments:comments,
       commentsTotal:commentsTotal.length
     });
+  }
+  async replyChange(articleId){
+    const replies = await getAllreplyByArticleId(articleId);
+    this.setState({
+      replies:replies
+    })
   }
   async deleteComment(commentId){
     const res = await deleteComment(commentId);
@@ -88,9 +101,21 @@ class ArticleDetail extends React.Component{
       pageSize:p,
     });
   }
+
+  showReply(index){
+    if(this.state.currentIndex==index){
+      this.setState({
+        currentIndex:null
+      });
+    }else{
+      this.setState({
+        currentIndex:index
+      });
+    }
+  }
   
   render() {
-    const {article,content,comments} = this.state;
+    const {article,content,comments,replies} = this.state;
     return (
       <div>
         <TopBar/>
@@ -123,13 +148,57 @@ class ArticleDetail extends React.Component{
                     </p>
                     <p>
                       <span>{moment(comment.commentTime).format('YYYY-MM-DD HH:mm:ss')}</span>
-                      <span><a>回复({comment.replys})</a></span>
+                      <span><a onClick={this.showReply.bind(this,index)}>回复({comment.replys})</a></span>
                       {
                         article.author==this.state.userInfo.name || this.state.userInfo.name==comment.userName?
                           <span><a onClick={this.deleteComment.bind(this,comment._id)}>删除</a></span>:
-                          <span></span>
+                          null
                       }
                     </p>
+                    <ul className='replies'>
+                      {
+                        replies.map((reply,r_index)=>(
+                          reply.topicId==comment._id?
+                            <li key={r_index}>
+                              <div>
+                                {
+                                  reply.isLv3==false?
+                                    <p>
+                                      <span className='first fromUser'>{reply.fromUserName}</span>
+                                      <span className='content'>{reply.toUserContent}</span>
+                                    </p>:
+                                    <p>
+                                      <span className='first'>{reply.fromUserName}</span>
+                                      <span>回复</span>
+                                      <span className='toUser'>{reply.toUserName}</span>
+                                      <span className='content'>{reply.toUserContent}</span>
+                                    </p>
+                                }
+                                
+                                <p>
+                                  <span className='first'>{moment(reply.createTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+                                  <span><a>回复</a></span>
+                                  {
+                                    this.state.userInfo.name==reply.fromUserName?
+                                    <span><a>删除</a></span>:
+                                    null
+                                  }
+                                </p>
+                              </div>
+                              <p></p>
+                            </li>:
+                            null
+                        ))
+                      }
+                    </ul>
+                    <div style={{display:(index===this.state.currentIndex) ? "block" : "none"}}>
+                      <Reply
+                        userInfo = {this.state.userInfo}
+                        ArticleId = {this.props.match.params.id}
+                        comment = {comment}
+                        replyChange = {this.replyChange.bind(this)}
+                      />
+                    </div>
                   </li>
                 ))
               }
@@ -146,12 +215,13 @@ class ArticleDetail extends React.Component{
               />
             </div>
           </div>
+          <Comment
+            userInfo = {this.state.userInfo}
+            ArticleId = {this.props.match.params.id}
+            commentChange = {this.commentChange.bind(this)}
+          />
         </div>
-        <Comment
-          userInfo = {this.state.userInfo}
-          ArticleId = {this.props.match.params.id}
-          commentChange = {this.commentChange.bind(this)}
-        />
+        
       </div>
     );
   }

@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
 
 var ReplySchema = new mongoose.Schema({
+  articleId:String,
   topicId:String,
-  respondent:String,
-  replyContent:String,
   fromUserName:String,
   toUserName:String,
   toUserContent:String,
