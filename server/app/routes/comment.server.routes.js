@@ -12,4 +12,7 @@ module.exports = function(app){
 
   app.route('/comment/updateCommentState')
     .post(CommentController.updateCommentState)
+
+  app.route('/comment/updateReplyNum')
+    .post(CommentController.updateReplyNum)
 }

@@ -35,11 +35,13 @@ class Main extends React.Component{
 		});
   }
   
-  async viewsChange(id){
-    const article = await getArticleById(id);
-    const num = article.views;
-    const tag = await updateViewsNum(id,num);
-    console.log(tag);
+  async viewsChange(id,author){
+    if(author != localStorage.getItem('name')){
+      const article = await getArticleById(id);
+      const num = article.views;
+      const tag = await updateViewsNum(id,num);
+      console.log(tag);
+    }
   }
 
 	async onClick(current,pageSize){
@@ -67,14 +69,18 @@ class Main extends React.Component{
          <div className='main'>
             <ul style={{margin:0}}> 
               {
+                articles.length==0?
+                <div>暂时没有任何文章快去发布吧
+                  <Link to='/writeBlog'> 点击前往</Link>
+                </div>:
                 articles.map((article, index) => ( 
                   <li className='list' key = {index} >
                     <Link to={{
                       pathname:`/detail/${article._id}`,
                     }}>
-                      <h3>
+                      <h3 onClick={this.viewsChange.bind(this,article._id,article.author)}>
                         <span className='statement'>{article.statement}</span>
-                        <span onClick={this.viewsChange.bind(this,article._id)} className='title'>{article.title}</span>
+                        <span className='title'>{article.title}</span>
                       </h3>
                     </Link>
                     <span>{article.tag}</span>

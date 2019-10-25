@@ -16,7 +16,7 @@ var CommentSchema = new mongoose.Schema({
     type:Date,
     default:Date.now
   },
-  replys:{
+  replies:{
     type:Number,
     default:0
   }

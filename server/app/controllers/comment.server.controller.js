@@ -48,4 +48,15 @@ module.exports = {
       })
     })
   },
+  updateReplyNum: function(req,res){
+    var id = req.body.id;
+    var num = req.body.num+1;
+    Comment
+      .updateOne({_id:id},{$set:{replies:num}},function(err,result){
+        if(err){
+          throw err;
+        }
+        return res.json(result);
+      })
+  },
 }

@@ -2,11 +2,12 @@ import React from 'react';
 import {Pagination} from 'antd';
 import moment from 'moment';
 import TopBar from '../components/TopBar';
+import Model from '../components/Model';
 import Reply from '../components/Reply';
 import Comment from '../components/Comment';
 import {getArticleById,updateCommentNum} from '../action/BlogAction';
 import {findByName} from '../action/UserAction';
-import {getCommentByArticleId,getAllCommentByArticleId,deleteComment} from '../action/CommentAction';
+import {getCommentByArticleId,getAllCommentByArticleId,deleteComment,updateReplyNum} from '../action/CommentAction';
 import {getAllreplyByArticleId} from '../action/ReplyAction';
 
 class ArticleDetail extends React.Component{
@@ -21,8 +22,8 @@ class ArticleDetail extends React.Component{
       commentsTotal:0,
       current:1,
       pageSize:10,
-      styleTag:false,
       currentIndex:null,
+      currentR_Index:null,
       replies:[]
     };
   }
@@ -59,16 +60,24 @@ class ArticleDetail extends React.Component{
     const commentsTotal = await getAllCommentByArticleId(this.state.article._id);
     const article = await getArticleById(articleId);
     const num = article.comment;
-    const test = await updateCommentNum(articleId,num);
-    console.log(test);
+    const tag = await updateCommentNum(articleId,num);
+    console.log(tag);
     this.setState({
       comments:comments,
       commentsTotal:commentsTotal.length
     });
   }
-  async replyChange(articleId){
+  async replyChange(articleId,commentId,replyNum){
+    const article = await getArticleById(articleId);
+    const num = article.comment;
+    const tag1 = await updateCommentNum(articleId,num);
+    console.log(tag1);
+    const tag2 = await updateReplyNum(commentId,replyNum);
+    console.log(tag2);
+    const comments = await getCommentByArticleId(articleId);
     const replies = await getAllreplyByArticleId(articleId);
     this.setState({
+      comments:comments,
       replies:replies
     })
   }
@@ -109,13 +118,27 @@ class ArticleDetail extends React.Component{
       });
     }else{
       this.setState({
-        currentIndex:index
+        currentIndex:index,
+        currentR_Index:null
+      });
+    }
+  }
+
+  showLVTReply(index){
+    if(this.state.currentR_Index==index){
+      this.setState({
+        currentR_Index:null
+      });
+    }else{
+      this.setState({
+        currentR_Index:index,
+        currentIndex:null
       });
     }
   }
   
   render() {
-    const {article,content,comments,replies} = this.state;
+    const {userInfo,article,content,commentsTotal,comments,replies,currentR_Index,currentIndex} = this.state;
     return (
       <div>
         <TopBar/>
@@ -131,95 +154,111 @@ class ArticleDetail extends React.Component{
           </div>
           <div className='comments'>
             <h2>评论</h2>
-            <ul>
-              {
-                comments.map((comment,index) => (
-                  <li key={index} className='comment'>
-                    <p>
-                      <span className='first name'>{comment.userName}</span> 
-                    </p>
-                    <p>
-                      {
-                        comment.commentState?
-                          <span className='content'>{comment.commentContent}</span>:
-                          <span>该评论已删除</span>
-                      }
-                       
-                    </p>
-                    <p>
-                      <span>{moment(comment.commentTime).format('YYYY-MM-DD HH:mm:ss')}</span>
-                      <span><a onClick={this.showReply.bind(this,index)}>回复({comment.replys})</a></span>
-                      {
-                        article.author==this.state.userInfo.name || this.state.userInfo.name==comment.userName?
-                          <span><a onClick={this.deleteComment.bind(this,comment._id)}>删除</a></span>:
-                          null
-                      }
-                    </p>
-                    <ul className='replies'>
-                      {
-                        replies.map((reply,r_index)=>(
-                          reply.topicId==comment._id?
-                            <li key={r_index}>
-                              <div>
-                                {
-                                  reply.isLv3==false?
-                                    <p>
-                                      <span className='first fromUser'>{reply.fromUserName}</span>
-                                      <span className='content'>{reply.toUserContent}</span>
-                                    </p>:
-                                    <p>
-                                      <span className='first'>{reply.fromUserName}</span>
-                                      <span>回复</span>
-                                      <span className='toUser'>{reply.toUserName}</span>
-                                      <span className='content'>{reply.toUserContent}</span>
-                                    </p>
-                                }
-                                
-                                <p>
-                                  <span className='first'>{moment(reply.createTime).format('YYYY-MM-DD HH:mm:ss')}</span>
-                                  <span><a>回复</a></span>
-                                  {
-                                    this.state.userInfo.name==reply.fromUserName?
-                                    <span><a>删除</a></span>:
-                                    null
-                                  }
-                                </p>
-                              </div>
-                              <p></p>
-                            </li>:
-                            null
-                        ))
-                      }
-                    </ul>
-                    <div style={{display:(index===this.state.currentIndex) ? "block" : "none"}}>
-                      <Reply
-                        userInfo = {this.state.userInfo}
-                        ArticleId = {this.props.match.params.id}
-                        comment = {comment}
-                        replyChange = {this.replyChange.bind(this)}
-                      />
-                    </div>
-                  </li>
-                ))
-              }
-            </ul>
-            <div>
-              <Pagination
-                style={{textAlign:'center'}}
-                showSizeChanger
-                onShowSizeChange={this.onShowSizeChange.bind(this)}
-                defaultCurrent={1}
-                total={this.state.commentsTotal}
-                onChange={this.onClick.bind(this)}
-                hideOnSinglePage={ true }
-              />
-            </div>
+            {
+              localStorage.getItem('name')?
+                <div>
+                  <ul>
+                    {
+                      comments.map((comment,index) => (
+                        <li key={index} className='comment'>
+                          <p>
+                            <span className='first name'>{comment.userName}</span> 
+                          </p>
+                          <p>
+                            {
+                              comment.commentState?
+                                <span className='content'>{comment.commentContent}</span>:
+                                <span>该评论已删除</span>
+                            }
+                            
+                          </p>
+                          <p>
+                            <span>{moment(comment.commentTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+                            <span><a onClick={this.showReply.bind(this,index)}>回复({comment.replies})</a></span>
+                            {
+                              article.author==userInfo.name || userInfo.name==comment.userName?
+                                <span><a onClick={this.deleteComment.bind(this,comment._id)}>删除</a></span>:
+                                null
+                            }
+                          </p>
+                          <div style={{display:(index===currentIndex) ? "block" : "none"}}>
+                            <Reply
+                              userInfo = {userInfo}
+                              ArticleId = {this.props.match.params.id}
+                              comment = {comment}
+                              replyChange = {this.replyChange.bind(this)}
+                            />
+                          </div>
+                          <ul className='replies'>
+                            {
+                              replies.map((reply,r_index)=>(
+                                reply.topicId==comment._id?
+                                  <li key={r_index}>
+                                    <div>
+                                      {
+                                        reply.isLv3==false?
+                                          <p>
+                                            <span className='first fromUser'>{reply.fromUserName}</span>
+                                            <span className='content'>{reply.toUserContent}</span>
+                                          </p>:
+                                          <p>
+                                            <span className='first fromUser'>{reply.fromUserName}</span>
+                                            <span>回复</span>
+                                            <span className='toUser'>{reply.toUserName}</span>
+                                            <span className='content'>{reply.toUserContent}</span>
+                                          </p>
+                                      }
+                                      
+                                      <p>
+                                        <span className='first'>{moment(reply.createTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+                                        {
+                                          userInfo.name==reply.fromUserName?
+                                            <span><a>删除</a></span>:
+                                            <span><a onClick={this.showLVTReply.bind(this,r_index)}>回复</a></span>
+                                        }
+                                      </p>
+                                    </div>
+                                    <div style={{display:(r_index===currentR_Index) ? "block" : "none"}}>
+                                        <Reply
+                                          tag = {userInfo.name==reply.userName?'':'LV3'}
+                                          userInfo = {userInfo}
+                                          ArticleId = {this.props.match.params.id}
+                                          comment = {comment}
+                                          reply = {reply}
+                                          replyChange = {this.replyChange.bind(this)}
+                                        />
+                                      </div>
+                                  </li>:
+                                  null
+                              ))
+                            }
+                          </ul>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                  <div>
+                    <Pagination
+                      style={{textAlign:'center'}}
+                      showSizeChanger
+                      onShowSizeChange={this.onShowSizeChange.bind(this)}
+                      defaultCurrent={1}
+                      total={commentsTotal}
+                      onChange={this.onClick.bind(this)}
+                      hideOnSinglePage={ true }
+                    />
+                  </div>
+                  <Comment
+                    userInfo = {userInfo}
+                    ArticleId = {this.props.match.params.id}
+                    commentChange = {this.commentChange.bind(this)}
+                  />
+                </div>:
+                <p>登录后可查看评论</p>
+            }
+            
           </div>
-          <Comment
-            userInfo = {this.state.userInfo}
-            ArticleId = {this.props.match.params.id}
-            commentChange = {this.commentChange.bind(this)}
-          />
+          
         </div>
         
       </div>

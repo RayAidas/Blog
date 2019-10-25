@@ -67,8 +67,8 @@ export async function getAllCommentByArticleId(articleId) {
     });
 }
 
-export function deleteComment(commentId) {
-  return fetch('http://localhost:7101/comment/updateCommentState', {
+export async function deleteComment(commentId) {
+  return await fetch('http://localhost:7101/comment/updateCommentState', {
     method: 'post',
     mode: "cors",
     headers: {
@@ -83,6 +83,30 @@ export function deleteComment(commentId) {
       console.log('update commentState success')
     } else {
       console.log('update commentState failed');
+    }
+    return response.ok;
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+ export async function updateReplyNum(commentId,num) {
+  return await fetch('http://localhost:7101/comment/updateReplyNum', {
+    method: 'post',
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id:commentId,
+      num:num
+    })
+  }).then(response => {
+    if (response.ok) {
+      console.log('update reply success')
+    } else {
+      console.log('update reply failed');
     }
     return response.ok;
   }).catch(error => {

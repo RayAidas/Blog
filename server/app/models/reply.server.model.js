@@ -3,7 +3,10 @@ var mongoose = require('mongoose');
 var ReplySchema = new mongoose.Schema({
   articleId:String,
   topicId:String,
-  fromUserName:String,
+  fromUserName:{
+    type:String,
+    default:'匿名用户'
+  },
   toUserName:String,
   toUserContent:String,
   replyState:{

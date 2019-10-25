@@ -40,15 +40,24 @@ const Reply = Form.create()(
           alert('评论不能为空');
         }else{
           addReply(values);
-          props.replyChange(props.ArticleId);
+          props.replyChange(props.ArticleId,props.comment._id,props.comment.replies);
           props.form.setFields({"toUserContent":""});
         }
       });
     }
 
     return(
-      <div className='reply' style={{marginLeft:'15px'}}>
+      <div className='reply' style={{marginLeft:(props.tag=='LV3')?'0px':'15px'}}>
         <Form {...formItemLayout}>
+        <FormItem label = "isLv3" style={{display:'none'}}> 
+              {
+                getFieldDecorator('isLv3', {
+                  initialValue:props.tag=='LV3'?true:false
+                })( 
+                  <Input readOnly />
+                )
+              } 
+            </FormItem>
         <FormItem label = "articleId" style={{display:'none'}}> 
               {
                 getFieldDecorator('articleId', {
@@ -79,7 +88,7 @@ const Reply = Form.create()(
             <FormItem label = "toUserName" style={{display:'none'}}> 
               {
                 getFieldDecorator('toUserName', {
-                  initialValue:props.comment.userName
+                  initialValue:props.tag=='LV3'?props.reply.fromUserName:props.comment.userName
                 })( 
                   <Input readOnly />
                 )
