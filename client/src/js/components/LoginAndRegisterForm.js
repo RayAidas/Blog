@@ -10,7 +10,7 @@ class NormalLoginForm extends React.Component {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
-      <Form className="login-form">
+      <Form className="login-form" autoComplete='off'>
         <Form.Item>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Please input your username!' }],

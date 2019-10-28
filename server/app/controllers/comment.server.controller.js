@@ -59,4 +59,14 @@ module.exports = {
         return res.json(result);
       })
   },
+  delete: function (req, res, doc) {
+    var id = req.body.id;
+    Comment
+      .remove({
+        articleId: id
+      }, function (err, removed) {
+        if (err) res.send(err);
+        else res.json(removed);
+      });
+  },
 }

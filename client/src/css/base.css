@@ -118,3 +118,12 @@ p {
 .replies .toUser{
   color:rgb(231, 75, 75);
 }
+
+@media screen and (max-width:576px){
+  .main,
+  .comments h2,
+  .comments p,
+  .replies p{
+    margin: 0;
+  }
+}

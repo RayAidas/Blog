@@ -15,4 +15,7 @@ module.exports = function(app){
 
   app.route('/comment/updateReplyNum')
     .post(CommentController.updateReplyNum)
+  
+  app.route('/deleteComment')
+    .post(CommentController.delete);
 }

@@ -1,10 +1,13 @@
 import React from 'react';
+import MediaQuery from 'react-responsive';
 import TopBar from '../components/TopBar';
 import {Button,Pagination } from 'antd';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import '../../css/base.css';
 import {getAllListByName,getListByName,deleteBlog} from '../action/BlogAction';
+import { deleteCommentByArticleId } from '../action/CommentAction';
+import { deleteReplyByArticleId } from '../action/ReplyAction';
 
 class UserBlog extends React.Component{
   constructor(props){
@@ -71,6 +74,8 @@ class UserBlog extends React.Component{
 
   async deleteArticle(id){
     const msg = await deleteBlog(id);
+    await deleteCommentByArticleId(id);
+    await deleteReplyByArticleId(id);
     console.log(msg);
     if(msg){
       const total = await getAllListByName(this.state.userName);
@@ -114,19 +119,37 @@ class UserBlog extends React.Component{
                     </p> 
                     <p className='info'>
                       <span className='first'>by {article.author} </span>
-                      <span> {moment(article.createTime).format('YYYY-MM-DD HH:mm:ssl')}</span>
-                      <span>浏览次数:{article.views}</span>
-                      <span>评论:{article.comment}</span>
-                      {
-                        this.props.match.params.author?
-                          <span></span>:
-                          <span>
-                            <Link to={{
-                              pathname:`/revise/${article._id}`,
-                            }}>修改</Link>  
-                            <a onClick={this.deleteArticle.bind(this,article._id)}>删除</a>
-                          </span>
-                      }
+                      <span> {moment(article.createTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+                      <MediaQuery query = '(min-device-width: 700px)' >
+                        <span>浏览次数:{article.views}</span>
+                        <span>评论:{article.comment}</span>
+                        {
+                          this.props.match.params.author?
+                            <span></span>:
+                            <span>
+                              <Link to={{
+                                pathname:`/revise/${article._id}`,
+                              }}>修改</Link>  
+                              <a onClick={this.deleteArticle.bind(this,article._id)}>删除</a>
+                            </span>
+                        }
+                      </MediaQuery>
+                      <MediaQuery query = '(max-device-width: 699px)' >
+                        <p>
+                          <span className='first'>浏览次数:{article.views}</span>
+                          <span>评论:{article.comment}</span>
+                          {
+                            this.props.match.params.author?
+                              <span></span>:
+                              <span>
+                                <Link to={{
+                                  pathname:`/revise/${article._id}`,
+                                }}>修改</Link>  
+                                <a onClick={this.deleteArticle.bind(this,article._id)}>删除</a>
+                              </span>
+                          }
+                        </p>
+                      </MediaQuery>
                     </p>
                   </li>
                 ))

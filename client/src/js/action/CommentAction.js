@@ -113,3 +113,26 @@ export async function deleteComment(commentId) {
     console.error(error);
   });
 }
+
+export async function deleteCommentByArticleId(ArticleId) {
+  return await fetch(`http://localhost:7101/deleteComment`, {
+    method: 'post',
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: ArticleId,
+    })
+  }).then(response => {
+    if (response.ok) {
+      console.log('delete success')
+    } else {
+      console.log('delete failed');
+    }
+    return response.ok;
+  }).catch(error => {
+    console.error(error);
+  });
+}

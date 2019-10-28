@@ -37,5 +37,15 @@ module.exports = {
 
         return res.json(docs);
       })
-  }
+  },
+  delete: function (req, res, doc) {
+    var id = req.body.id;
+    Reply
+      .remove({
+        articleId: id
+      }, function (err, removed) {
+        if (err) res.send(err);
+        else res.json(removed);
+      });
+  },
 }

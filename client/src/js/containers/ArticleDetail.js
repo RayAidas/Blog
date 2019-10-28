@@ -2,7 +2,6 @@ import React from 'react';
 import {Pagination} from 'antd';
 import moment from 'moment';
 import TopBar from '../components/TopBar';
-import Model from '../components/Model';
 import Reply from '../components/Reply';
 import Comment from '../components/Comment';
 import {getArticleById,updateCommentNum} from '../action/BlogAction';
@@ -149,7 +148,7 @@ class ArticleDetail extends React.Component{
             </blockquote>
             <div 
               dangerouslySetInnerHTML={{ __html: content }} 
-              style={{whiteSpace:'pre-wrap',fontWeight:' 400',marginBottom: '1.5rem'}}
+              style={{whiteSpace:'pre-wrap',wordWrap: 'break-word',fontWeight:' 400',marginBottom: '1.5rem'}}
             ></div>
           </div>
           <div className='comments'>

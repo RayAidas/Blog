@@ -9,4 +9,7 @@ module.exports = function(app){
 
   app.route('/reply/getAllByArticleId')
     .get(ReplyController.allListByArticleId)
+
+  app.route('/deleteReply')
+    .post(ReplyController.delete);
 }

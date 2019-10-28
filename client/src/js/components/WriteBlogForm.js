@@ -65,7 +65,7 @@ const WriteBlogForm = Form.create()(
 
     return ( 
       <div>
-        <Form {...formItemLayout}>
+        <Form {...formItemLayout} autoComplete='off'>
           {
             initData?
               <FormItem label = "articleId" style={{display:'none'}}> 

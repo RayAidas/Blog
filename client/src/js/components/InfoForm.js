@@ -46,7 +46,7 @@ const InfoForm = Form.create()(
 
     return(
       <div>
-        <Form {...formItemLayout}>
+        <Form {...formItemLayout} autoComplete='off'>
         <FormItem label = "userId" style={{display:'none'}}> 
             {
               getFieldDecorator('id', {

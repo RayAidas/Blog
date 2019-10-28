@@ -48,7 +48,7 @@ const Reply = Form.create()(
 
     return(
       <div className='reply' style={{marginLeft:(props.tag=='LV3')?'0px':'15px'}}>
-        <Form {...formItemLayout}>
+        <Form {...formItemLayout} autoComplete='off'>
         <FormItem label = "isLv3" style={{display:'none'}}> 
               {
                 getFieldDecorator('isLv3', {
