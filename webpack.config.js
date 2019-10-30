@@ -1,22 +1,12 @@
 var debug = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var path = require('path');
 
 module.exports = {
   context: path.join(__dirname),
   devtool: debug ? "inline-sourcemap" : null,
   entry: "./client/src/js/index.js",
-  // devServer:{
-  //   open:true,
-  //   port:3000,
-  //   contentBase:'client',
-  //   hot:true
-  // },
-  // plugins:[
-  //   // 配置插件的节点
-  //   // new 一个热更新的模块对象，这是启用热更新的第三步
-  //  new webpack.HotModuleReplacementPlugin()
-  // ],
   module: {
     rules: [{
         test: /\.js?$/,
@@ -47,7 +37,7 @@ module.exports = {
           }
         ]
       },
-      {                            
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
@@ -55,11 +45,24 @@ module.exports = {
     ]
   },
   output: {
-    // path: __dirname,
     path: path.join(__dirname, 'client/src/dist'),
-　　filename: 'bundle.js'
-    // filename: "./client/src/dist/bundle.js"
+    filename: 'bundle.js'
   },
+  plugins: [
+    new UglifyJsPlugin({
+      parallel: 4,
+      uglifyOptions: {
+        output: {
+          comments: false,
+          beautify: false,
+        },
+        compress: {
+          warnings: false
+        },
+      },
+      cache: true,
+    }),
+  ],
   mode: 'development',
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
