@@ -109,7 +109,7 @@ class UserBlog extends React.Component{
                       pathname:`/detail/${article._id}`,
                     }}>
                       <h3>
-                        <span className='statement'>{article.statement}</span>
+                        <span className='statement'>#{article.statement}</span>
                         <span className='title'>{article.title}</span>
                       </h3>
                     </Link>

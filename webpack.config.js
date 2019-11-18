@@ -41,6 +41,13 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test:/\.(png|jpg|gif|svg)$/i,
+        loaders:[
+          'url-loader?limit=1000&name=img/[name]-[hash:5].[ext]',
+          'image-webpack-loader'
+        ]
       }
     ]
   },

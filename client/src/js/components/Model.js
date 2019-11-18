@@ -4,22 +4,17 @@ import {Link} from 'react-router-dom';
 import 'antd/dist/antd.css';
 import WrappedNormalForm from './LoginAndRegisterForm';
 import {register, login,findByName} from '../action/UserAction';
+import defaultAvatar from '../../img/default.jpg';
 
 class Model extends React.Component {
   constructor(props){
     super(props);
     this.state = { 
-      user:{
-        id:null,
-        name:null,
-        description:'这个人很懒.',
-        age:null,
-        sex:null,
-        email:null,
-        tel:null,
-      },
+      user:{},
+      avatarPath:null,
       visible: false,
-      username:localStorage.getItem('name')
+      username:localStorage.getItem('name'),
+      userId:localStorage.getItem('id')
     };
   }
   
@@ -40,16 +35,13 @@ class Model extends React.Component {
     if(this.props.tag=='login'){
       const flag1 = await login(this.formRef.getItemsValue());
       if(flag1){
-        this.setState({
-          user:{
-            name:this.formRef.getItemsValue().name
-          }
-        });
-        const res = await findByName(this.state.user.name);
+        const res = await findByName(this.formRef.getItemsValue().name);
+        console.log('res:',res)
         this.setState({
           visible: false,
-          user:res,
+          user:res
         });
+        localStorage.setItem('id',res._id);
         location.reload();
       }else{
         alert('用户名或密码错误');
@@ -66,14 +58,24 @@ class Model extends React.Component {
             visible: false,
           });
           localStorage.setItem('name',this.formRef.getItemsValue().name);
-          location.reload();
+          alert('注册成功');
         }else{
           alert('该用户已存在');
         }
       }
     }
-    
   };
+
+  async user(){
+    if(localStorage.getItem('name')){
+      const res = await findByName(name);
+      this.setState({
+        user:res
+      })
+    }else{
+      return null;
+    }
+  }
   
   handleCancel(e){
     e.preventDefault();
@@ -82,17 +84,31 @@ class Model extends React.Component {
     });
   };
 
+  
+
   render() {
+    const avatar = {
+      width:'30px',
+      height:'30px',
+      borderRadius:'50%',
+      marginRight:'10px'
+    }
     return (
       <div>
         {
           this.props.tag=='login'?
           (localStorage.getItem("name")?
-            <Link to='/userInfo'>
-              {localStorage.getItem("name")}
-            </Link> :
+            <p style={{display:'inline'}}>
+              <Link to='/avatar'>
+                <img style={avatar} src={this.props.avatarPath?this.props.avatarPath:defaultAvatar}/>
+              </Link>
+              <Link to='/userInfo'>
+                {localStorage.getItem("name")}
+              </Link>
+            </p> :
             <a onClick={this.showModal.bind(this)}>
-              登录
+              <img style={avatar} src={defaultAvatar}/>
+              <span>登录</span> 
             </a>
           ):
           (localStorage.getItem("name")?

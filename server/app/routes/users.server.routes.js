@@ -14,7 +14,13 @@ module.exports = function(app){
         .post(UserController.delete);
 
     app.route('/user/:name')
-		.get(UserController.get);
+        .get(UserController.get);
+    
+    app.route('/uploadAvatar')
+        .post(UserController.uploadAvatar);
+
+    app.route('/updateAvatarPath')
+        .post(UserController.updateAvatarPath);
         
     app.param('name',UserController.getByName);
 }

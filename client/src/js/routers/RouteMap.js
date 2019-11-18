@@ -5,6 +5,7 @@ import UserInfo from '../containers/UserInfo';
 import WriteBlog from '../containers/WriteBlog';
 import MyBlog from '../containers/MyBlog';
 import ArticleDetail from '../containers/ArticleDetail';
+import UploadAvatar from '../containers/UploadAvatar';
 
 class RouteMap extends React.Component {
 	render() {
@@ -17,6 +18,7 @@ class RouteMap extends React.Component {
 					<Route path='/list/:author' component={MyBlog}/>
 					<Route path='/detail/:id' component={ArticleDetail}/>
 					<Route path='/revise/:id' component={WriteBlog}/>
+					<Route path='/avatar' component={UploadAvatar}/>
 				</Router>
 		);
 	}

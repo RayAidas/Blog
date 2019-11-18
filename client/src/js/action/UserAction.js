@@ -84,3 +84,29 @@ export async function findByName(name) {
       console.error(error);
     });
 }
+
+export async function updateAvatarPath(id,avatarPath,avatarName,oldName) {
+  return await fetch(`http://localhost:7101/updateAvatarPath`, {
+    method: 'post',
+    mode: "cors",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id:id,
+      avatarPath:avatarPath,
+      avatarName:avatarName,
+      oldName:oldName
+    })
+  }).then(response => {
+    if (response.ok) {
+      console.log('save avatarPath success')
+    } else {
+      console.log('save avatarPath failed');
+    }
+    return response.ok;
+  }).catch(error => {
+    console.error(error);
+  });
+}

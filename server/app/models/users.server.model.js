@@ -14,6 +14,14 @@ var UserSchema = new mongoose.Schema({
     createTime:{
         type:Date,
         default:Date.now
+    },
+    avatarPath:{
+        type:String,
+        default:null
+    },
+    avatarName:{
+        type:String,
+        default:null
     }
 });
 

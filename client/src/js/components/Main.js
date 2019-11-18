@@ -79,7 +79,7 @@ class Main extends React.Component{
                       pathname:`/detail/${article._id}`,
                     }}>
                       <h3 onClick={this.viewsChange.bind(this,article._id,article.author)}>
-                        <span className='statement'>{article.statement}</span>
+                        <span className='statement'>#{article.statement}</span>
                         <span className='title'>{article.title}</span>
                       </h3>
                     </Link>

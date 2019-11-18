@@ -12,7 +12,7 @@ p {
 .main,
 .comments h2,
 .comments p,
-.replies p{
+.replies p {
   margin: 0 16% 0 16%;
 }
 
@@ -68,7 +68,7 @@ p {
 
 .main .info .first,
 .comments ul li .first,
-.replies p .first{
+.replies p .first {
   margin: 0;
 }
 
@@ -102,28 +102,29 @@ p {
 }
 
 .replies {
-  padding:10px 0px 0 20px;
+  padding: 10px 0px 0 20px;
 }
 
-.replies .content{
-  color:#000;
+.replies .content {
+  color: #000;
   font-size: 14px;
   word-wrap: break-word;
 }
 
-.replies .fromUser{
-  color:rgba(10, 10, 250, 0.76);
+.replies .fromUser {
+  color: rgba(10, 10, 250, 0.76);
 }
 
-.replies .toUser{
-  color:rgb(231, 75, 75);
+.replies .toUser {
+  color: rgb(231, 75, 75);
 }
 
-@media screen and (max-width:576px){
+@media screen and (max-width:576px) {
+
   .main,
   .comments h2,
   .comments p,
-  .replies p{
+  .replies p {
     margin: 0;
   }
 }

@@ -4,23 +4,41 @@ import MediaQuery from 'react-responsive';
 import { Menu, Dropdown, Icon } from 'antd';
 import Model from './Model';
 import '../../css/topbar.css';
+import defaultAvatar from '../../img/default.jpg';
+import {findByName} from '../action/UserAction';
 
 class TopBar extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
+			avatarPath:null,
 			currenUserName:localStorage.getItem('name')
 		}
 	}
+
+	async componentDidMount(){
+    if(localStorage.getItem('name')){
+      const res = await findByName(localStorage.getItem('name'));
+      this.setState({
+        avatarPath:res.avatarPath
+      });
+    }
+  }
 
 	alertInfo(){
 		alert('请登录');
 	}
 
 	render() {
+		const avatar = {
+      width:'30px',
+      height:'30px',
+      borderRadius:'50%',
+      marginRight:'10px'
+		}
 		return (
 			<div>
-				<MediaQuery query = '(min-device-width: 700px)' >
+				<MediaQuery query = '(min-device-width:800px)' >
 					<div className='topbar clearfix'>
 						<div className='ll'>
 							<div>
@@ -43,11 +61,11 @@ class TopBar extends React.Component{
 								}	
 							</div>
 							<div><Model tag={'register'}/></div>
-							<div><Model tag={'login'}/></div>
+							<div><Model avatarPath={this.state.avatarPath} tag={'login'}/></div>
 						</div>
 					</div>
 				</MediaQuery>
-				<MediaQuery query = '(max-device-width: 699px)' >
+				<MediaQuery query = '(max-device-width: 800px)' >
 				<div className='topbar clearfix'>
 						<div className='ll'>
 							<div>
@@ -58,7 +76,7 @@ class TopBar extends React.Component{
 						<Dropdown overlay={(
 							<Menu>
 								<Menu.Item key="0">
-									<div><Model tag={'login'}/></div>
+									<div><Model avatarPath={this.state.avatarPath} tag={'login'}/></div>
 								</Menu.Item>
 								<Menu.Item key="1">
 									<div>
@@ -85,6 +103,7 @@ class TopBar extends React.Component{
 							)} trigger={['click']}>
 							<div className="ant-dropdown-link" href="#">
 								<a>
+									<img style={avatar} src={this.state.avatarPath?this.state.avatarPath:defaultAvatar}/>
 									{
 										localStorage.getItem('name')?
 											localStorage.getItem('name'):
