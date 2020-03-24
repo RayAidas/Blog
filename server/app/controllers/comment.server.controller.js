@@ -10,6 +10,20 @@ module.exports = {
       return res.json(comment);
     })
   },
+  getById: function (req, res, next, id) {
+    if (!id) return next(new Error('Comment not Found'));
+
+    Comment
+      .findOne({
+        _id: id
+      })
+      .exec(function (err, doc) {
+        if (err) return next(err);
+
+        req.comment = doc;
+        return next();
+      })
+  },
   allListByArticleId: function (req, res, next) {
     var articleId = req.query.articleId;
     Comment
@@ -48,12 +62,18 @@ module.exports = {
       })
     })
   },
-  updateReplyNum: function(req,res){
-    var id = req.body.id;
-    var num = req.body.num+1;
+  updateReplyNum: function (req, res) {
+    var id = req.comment._id;
+    var num = req.comment.replies + 1;
     Comment
-      .updateOne({_id:id},{$set:{replies:num}},function(err,result){
-        if(err){
+      .updateOne({
+        _id: id
+      }, {
+        $set: {
+          replies: num
+        }
+      }, function (err, result) {
+        if (err) {
           throw err;
         }
         return res.json(result);

@@ -6,7 +6,7 @@ var path = require('path');
 module.exports = {
   context: path.join(__dirname),
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./client/src/js/index.js",
+  entry: "./client/src/index.js",
   module: {
     rules: [{
         test: /\.js?$/,

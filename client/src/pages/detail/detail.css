@@ -1,0 +1,83 @@
+p {
+  margin: 0;
+}
+
+.main,
+.comments {
+  margin: 0 auto;
+  padding-bottom: 1em;
+}
+
+.main,
+.comments h2,
+.comments p,
+.replies p {
+  margin: 0 16% 0 16%;
+}
+
+.comments a {
+  -moz-user-select: -moz-none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+.main blockquote {
+  position: relative;
+  color: #999;
+  font-weight: 400;
+  border-left: 4px solid #e5e9f2;
+  padding-left: 1em;
+  margin: 1em 3em 1em 2em;
+}
+
+.comments .name {
+  color: rgb(5, 197, 79);
+  font-size: 16px;
+}
+
+.comments .content {
+  color: #000;
+  font-size: 20px;
+  padding: 5px 0 5px 0;
+}
+
+.comment {
+  margin-bottom: 10px;
+}
+
+.reply .ant-form-item {
+  margin-bottom: 0;
+}
+
+.replies {
+  padding: 10px 0px 0 20px;
+}
+
+.replies .content {
+  color: #000;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.replies .fromUser {
+  color: rgba(10, 10, 250, 0.76);
+}
+
+.replies .toUser {
+  color: rgb(231, 75, 75);
+}
+
+@media screen and (max-width:576px) {
+
+  .main,
+  .comments h2,
+  .comments p,
+  .replies p {
+    margin: 0;
+  }
+}

@@ -4,6 +4,14 @@ var ArticleSchema = new mongoose.Schema({
   title: String,
   author:String,
   authorId:String,
+  fav_User:{
+    type:Array,
+    default:[]
+  },
+  fav_nums:{
+    type:Number,
+    default:0
+  },
   views:{
     type:Number,
     default:0
@@ -12,7 +20,10 @@ var ArticleSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
-  tag: String,
+  tag: {
+    type:Array,
+    default:[]
+  },
   content:String,
   type:String,
   description:String,

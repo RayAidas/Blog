@@ -64,30 +64,44 @@ module.exports = {
     var id = req.body.id;
     var article = req.body;
     Article
-      .updateOne({_id:id},article,function (err,result) {
-        if(err){
+      .updateOne({
+        _id: id
+      }, article, function (err, result) {
+        if (err) {
           throw err;
         }
         return res.json(result);
       });
   },
-  updateCommentNum: function(req,res){
-    var id = req.body.id;
-    var num = req.body.num+1;
+  updateCommentNum: function (req, res) {
+    var id = req.article._id;
+    var num = req.article.comment + 1;
     Article
-      .updateOne({_id:id},{$set:{comment:num}},function(err,result){
-        if(err){
+      .updateOne({
+        _id: id
+      }, {
+        $set: {
+          comment: num
+        }
+      }, function (err, result) {
+        if (err) {
           throw err;
         }
         return res.json(result);
       })
   },
-  updateViewsNum: function(req,res){
-    var id = req.body.id;
-    var num = req.body.num+1;
+  updateViewsNum: function (req, res) {
+    var id = req.article._id;
+    var num = req.article.views + 1;
     Article
-      .updateOne({_id:id},{$set:{views:num}},function(err,result){
-        if(err){
+      .updateOne({
+        _id: id
+      }, {
+        $set: {
+          views: num
+        }
+      }, function (err, result) {
+        if (err) {
           throw err;
         }
         return res.json(result);
@@ -96,19 +110,23 @@ module.exports = {
   getAllListByName: function (req, res, next) {
     var author = req.query.author;
     Article
-      .find({author:author})
+      .find({
+        author: author
+      })
       .exec(function (err, docs) {
         if (err) return next(err);
 
         return res.json(docs);
       })
   },
-  getListByName: function(req,res,next){
+  getListByName: function (req, res, next) {
     var pagesize = parseInt(req.query.pagesize, 10) || 10;
     var pagestart = parseInt(req.query.pagestart, 10) || 1;
     var author = req.query.author;
     Article
-      .find({author:author})
+      .find({
+        author: author
+      })
       .skip((pagestart - 1) * pagesize)
       .limit(pagesize)
       .exec(function (err, docs) {

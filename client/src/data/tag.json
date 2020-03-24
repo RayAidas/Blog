@@ -1,0 +1,48 @@
+[
+  {
+    "type": "前端",
+    "tags": [
+      {
+        "key": 0,
+        "tag": "JavaScript"
+      },
+      {
+        "key": 1,
+        "tag": "nodeJs"
+      },
+      {
+        "key": 2,
+        "tag": "react"
+      },
+      {
+        "key":3,
+        "tag":"vue"
+      }
+    ]
+  },
+  {
+    "type": "后台",
+    "tags": [
+      {
+        "key":0,
+        "tag":"java"
+      },
+      {
+        "key":1,
+        "tag":"Spring"
+      }
+    ]
+  },
+  {
+    "type": "运维",
+    "tags": []
+  },
+  {
+    "type": "数据库",
+    "tags": []
+  },
+  {
+    "type":"其他",
+    "tags":[]
+  }
+]
